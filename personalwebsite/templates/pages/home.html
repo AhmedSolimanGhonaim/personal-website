@@ -79,6 +79,9 @@
                         <a class="nav-link" href="{% url 'about' %}">About</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'post_list' %}">Blog</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#">Projects</a>
                     </li>
                     <li class="nav-item">
@@ -94,7 +97,10 @@
         <div class="container text-center">
             <h1 class="display-3 fw-bold mb-4">Welcome to My Portfolio</h1>
             <p class="lead mb-5">I create beautiful, functional, and user-friendly digital experiences</p>
-            <button class="btn btn-light btn-lg px-5 py-3 rounded-pill shadow-sm">View My Work</button>
+            <div class="d-flex justify-content-center gap-3">
+                <button class="btn btn-light btn-lg px-5 py-3 rounded-pill shadow-sm">View My Work</button>
+                <a href="{% url 'post_list' %}" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-sm"><i class="fas fa-blog me-2"></i>Read My Blog</a>
+            </div>
         </div>
     </section>
 
@@ -165,6 +171,23 @@
                         <a href="#" class="btn btn-outline-primary">View Project</a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Blog Posts Section -->
+    <section class="container mb-5">
+        <h2 class="text-center mb-5">Latest Blog Posts</h2>
+        <div class="row">
+            <div class="col-12 text-center mb-4">
+                <p class="lead">Check out my latest thoughts and insights on web development, design, and technology.</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 text-center">
+                <a href="{% url 'post_list' %}" class="btn btn-primary btn-lg rounded-pill px-5 py-3">
+                    <i class="fas fa-newspaper me-2"></i>View All Blog Posts
+                </a>
             </div>
         </div>
     </section>
