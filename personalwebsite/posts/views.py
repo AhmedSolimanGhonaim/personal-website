@@ -1,9 +1,9 @@
-from django.shortcuts import render , get_object_or_404
-
-
-
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Posts
-from django.views.generic import ListView , DetailView 
+from .forms import PostForm
 
 class PostList(ListView):
     model = Posts
@@ -21,6 +21,22 @@ class PostList(ListView):
 
 
 class PostDetail(DetailView):
-    model =Posts
+    model = Posts
     template_name = "posts/post_detail.html"
     context_object_name = "postdetail"
+
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Posts
+    form_class = PostForm
+    template_name = "posts/post_form.html"
+    success_url = reverse_lazy('post_list')
+    login_url = 'login'
+
+
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model = Posts
+    form_class = PostForm
+    template_name = "posts/post_form.html"
+    success_url = reverse_lazy('post_list')
+    login_url = 'login'

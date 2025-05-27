@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ postdetail.title }} | Blog</title>
+    <title>{% if form.instance.pk %}Edit Post{% else %}Create New Post{% endif %} | Blog</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Custom styles */
-        .post-header {
+        .form-header {
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             color: white;
             padding: 80px 0;
@@ -19,57 +19,34 @@
             margin-bottom: 50px;
         }
         
-        .post-content {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #495057;
-        }
-        
-        .post-meta {
-            color: #6c757d;
-            font-size: 0.9rem;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        .post-meta i {
-            margin-right: 5px;
-        }
-        
-        .post-meta span {
-            margin-right: 20px;
-        }
-        
-        .post-navigation {
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid #e9ecef;
-        }
-        
-        .post-navigation .btn {
-            border-radius: 50px;
-            padding: 10px 25px;
-        }
-        
-        .related-posts {
-            margin-top: 60px;
-            padding-top: 40px;
-            border-top: 1px solid #e9ecef;
-        }
-        
-        .related-post-card {
+        .form-container {
+            background-color: #fff;
             border-radius: 15px;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 100%;
-            border: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-bottom: 60px;
         }
         
-        .related-post-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .form-control:focus {
+            border-color: #6a11cb;
+            box-shadow: 0 0 0 0.25rem rgba(106, 17, 203, 0.25);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border: none;
+            padding: 10px 30px;
+            border-radius: 50px;
+        }
+        
+        .btn-outline-secondary {
+            border-radius: 50px;
+            padding: 10px 30px;
         }
         
         .footer {
@@ -88,20 +65,6 @@
         
         .social-icon:hover {
             color: #6a11cb;
-        }
-        
-        .share-buttons {
-            margin-top: 40px;
-        }
-        
-        .share-buttons .btn {
-            border-radius: 50px;
-            margin: 0 5px;
-            width: 40px;
-            height: 40px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
         }
     </style>
 </head>
@@ -151,45 +114,50 @@
         </div>
     </nav>
 
-    <!-- Post Header -->
-    <header class="post-header">
+    <!-- Form Header -->
+    <header class="form-header">
         <div class="container text-center">
-            <h1 class="display-4 fw-bold mb-4">{{ postdetail.title }}</h1>
+            <h1 class="display-4 fw-bold mb-4">{% if form.instance.pk %}Edit Post{% else %}Create New Post{% endif %}</h1>
         </div>
     </header>
 
-    <!-- Post Content -->
+    <!-- Post Form -->
     <section class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <!-- Post Meta -->
-                <div class="post-meta">
-                    <span><i class="far fa-calendar-alt"></i> Published: {{ postdetail.created_at|date:"F j, Y" }}</span>
-                    <span><i class="far fa-clock"></i> Last Updated: {{ postdetail.updated_at|date:"F j, Y" }}</span>
-                </div>
-                
-                <!-- Post Content -->
-                <div class="post-content">
-                    <p>{{ postdetail.text }}</p>
-                </div>
-                
-                <!-- Share Buttons -->
-                <div class="share-buttons text-center">
-                    <h5 class="mb-3">Share this post</h5>
-                    <a href="#" class="btn btn-primary"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="btn btn-info"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="btn btn-success"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#" class="btn btn-secondary"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-                
-                <!-- Post Navigation -->
-                <div class="post-navigation d-flex justify-content-between">
-                    <a href="{% url 'post_list' %}" class="btn btn-outline-primary">
-                        <i class="fas fa-arrow-left me-2"></i>Back to Blog
-                    </a>
-                    <a href="{% url 'post_edit' postdetail.pk %}" class="btn btn-primary">
-                        <i class="fas fa-edit me-2"></i>Edit Post
-                    </a>
+                <div class="form-container">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">Title</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="text-danger mt-2">
+                                    {{ form.title.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.text.id_for_label }}" class="form-label">Content</label>
+                            {{ form.text }}
+                            {% if form.text.errors %}
+                                <div class="text-danger mt-2">
+                                    {{ form.text.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-5">
+                            <a href="{% url 'post_list' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>{% if form.instance.pk %}Update{% else %}Publish{% endif %}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

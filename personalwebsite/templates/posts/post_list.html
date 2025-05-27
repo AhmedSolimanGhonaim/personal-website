@@ -109,6 +109,22 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
                     </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-1"></i>{{ user.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'post_create' %}"><i class="fas fa-plus-circle me-2"></i>New Post</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt me-1"></i>Login</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -118,7 +134,10 @@
     <header class="blog-header">
         <div class="container text-center">
             <h1 class="display-4 fw-bold mb-4">My Blog</h1>
-            <p class="lead mb-0">Thoughts, ideas, and insights from my journey</p>
+            <p class="lead mb-4">Thoughts, ideas, and insights from my journey</p>
+            <a href="{% url 'post_create' %}" class="btn btn-light btn-lg rounded-pill px-5 py-3">
+                <i class="fas fa-plus-circle me-2"></i>Create New Post
+            </a>
         </div>
     </header>
 
