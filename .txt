@@ -1,0 +1,86 @@
+first the when django first released most of websites consisted of large monolithic code base 
+the backend of database models ,vies , urls were combined with frontend 
+templates to control presentational layer of each web page  , 
+but now after websites started using api - first approach 
+that separates backend from frontend , this allows 
+websites to use js frontend frameworks  , when the current used frame work changes ofr replacced with other 
+the backend can remain the same
+no major rewrite is required
+2- also  a single api can support multiple frontend  written in diff languages 
+  ex : js , ios>swift 
+  -------------------------
+
+
+  url > uniform resource locator 
+
+  user > address > DNS : IP unique seq of numbers 
+    represents every connected device on the internet > 
+    now the browser has the ip now it needs to 
+    set up a consistent connection >TCP transmission control protocol
+    provides reliable orderd and error checked delivery 
+    of the bytes  bet apps 
+    and to establish that tcp connection , threeway handshake happens 
+    the client send SYN  asking to establish a connectionthe server responds with SYN-Ack acknowledging request and 
+    passing the connection parameter 
+    client says yes Ack confirming the connection or testing if wemight says
+
+    once that tcp connection is established the two computers starts communicating via http
+    and we have ports like 80 for http and 443 for https 
+    so now we have the information we need in the http 
+    like req line get post del put also a path and http version and header contains info like host that can be domain name, and a body optional 
+    so now 
+    You can tell the general type of status code based on the following system:
+    • 2xx Success - the action requested by the client was received, understood, and accepted
+    • 3xx Redirection - the requested URL has moved
+    • 4xx Client Error - there was an error, typically a bad URL request by the client
+    • 5xx Server Error - the server failed to resolve a request
+    There is no need to memorize all the available status codes. With practice you will become
+    familiar with the most common ones such as 200 (OK), 201 (Created), 301 (Moved Permanently),
+    404 (Not Found), and 500 (Server Error).
+
+    Statelessness brings a lot of benefits to HTTP. Since all electronic communication systems have
+    signal loss over time, if we did not have a stateless protocol, things would constantly break if
+    one request/response cycle didn’t go through. As a result, HTTP is known as a very resilient
+    distributed protocol.
+    RESTful API:
+    • is stateless, like HTTP
+    • supports common HTTP verbs (GET, POST, PUT, DELETE, etc.)
+    • returns data in either the JSON or XML format
+
+ a web API is:
+    a collection of endpoints that expose certain parts of an underlying
+    database. As developers we control the URLs for each endpoint, what underlying data is available,
+    and what actions are possible via HTTP verbs. By using HTTP headers we can set various levels
+    of authentication and permission too
+
+it very good for reliably sending information between two computers, but bad at remembering
+anything outside of each individual request/response pair.
+  every url contain > scheme : https 
+                    > hostname : blab.com 
+                    > path(optional):/about
+
+
+Middleware
+Adding WhiteNoise is the first time we’ve updated the Django middleware, a
+framework of hooks into Django’s request/response processing. It is a way to
+add functionality such as authentication, security, sessions, and more. During the
+HTTP request phase, middleware is applied in the order it is defined in
+MIDDLEWARE top-down. That means SecurityMiddleware comes first, then
+SessionMiddleware, and so on.
+Code
+# django_project/settings.py
+MIDDLEWARE = [
+"django.middleware.security.SecurityMiddleware",
+"django.contrib.sessions.middleware.SessionMiddleware",
+"whitenoise.middleware.WhiteNoiseMiddleware", # new
+"django.middleware.common.CommonMiddleware",
+"django.middleware.csrf.CsrfViewMiddleware",
+"django.contrib.auth.middleware.AuthenticationMiddleware",
+"django.contrib.messages.middleware.MessageMiddleware",
+"django.middleware.clickjacking.XFrameOptionsMiddleware", ]
+
+
+FormView is a built-in view that displays a form, any validation errors, and
+redirects to a new URL. We will use it with SingleObjectMixin to associate the
+current article with our form; in other words, if you have a comment at
+articles/4/, as I do in the screenshots, then SingleObjectM
